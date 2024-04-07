@@ -1,10 +1,8 @@
 package hello.springmvc.basic.requestmapping;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Slf4j
@@ -66,4 +64,49 @@ public class MappingController {
         log.info("mappingParam");
         return "ok";
     }
+
+    /**
+     * 특정 헤더로 추가 매핑
+     * headers="mode",
+     * headers="!mode"
+     * headers="mode=debug"
+     * headers="mode!=debug" (! = )
+     */
+    @GetMapping(value = "/mapping-header", headers = "mode=debug")
+    public String mappingHeader() {
+        log.info("mappingHeader");
+        return "ok";
+    }
+
+    /**
+     * Content-Type 헤더 기반 추가 매핑 Media Type
+     * consumes="application/json"
+     * consumes="!application/json"
+     * consumes="application/*"
+     * consumes="*\/*"
+     * MediaType.APPLICATION_JSON_VALUE
+     */
+    @PostMapping(value = "/mapping-consume", consumes = "application/json")
+    public String mappingConsumes() {
+        log.info("mappingConsumes");
+        return "ok";
+    }
+    // 서버 입장에서 application/json을 소비할 수 있다.
+
+    /**
+     * Accept 헤더 기반 Media Type
+     * produces = "text/html"
+     * produces = "!text/html"
+     * produces = "text/*"
+     * produces = "*\/*"
+     * MediaType.TEXT_HTML_VALUE
+     */
+    @PostMapping(value = "/mapping-produce", produces = "text/html")
+    public String mappingProduces() {
+        log.info("mappingProduces");
+        return "ok";
+    }
+    // 서버 입장에서 text/html을 생산한다.
+
+
 }
